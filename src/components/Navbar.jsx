@@ -18,11 +18,12 @@ export default function Navbar( props ) {
     }
 
     function scrollToSection(elementRef){
+        menuClose();
         window.scrollTo({
             top: elementRef.current.offsetTop,
             behavior: "smooth",
         })
-        menuClose();
+        
     }
 
     return(

@@ -1,124 +1,100 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import ContainerMaxWidth from "@src/components/containers/ContainerMaxWidth";
+import Navbar from "@src/components/Navbar";
+import SectionDivider from "@src/components/SectionDivider";
+import ContainerMiniCard from "@src/components/containers/ContainerMiniCard";
+import React, { useEffect, useRef, useState } from "react";
+import SimpleSlider from "@src/components/SimpleSlider";
+import Footer from "@src/components/Footer";
 
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  
+  const [skills, setSkills] = useState([]);
+
+  const [projects, setProjects] = useState([]);
+
+  const refQuienSoy =useRef(null);
+  const refConocimientos =useRef(null);
+  const refProyectos =useRef(null);
+
+  const items = [["Proyectos", refProyectos], ["Conocimientos", refConocimientos], ["Quién Soy", refQuienSoy]] ;
+
+  useEffect(() => {
+    setSkills([
+      ["React", "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/React.svg/1200px-React.svg.png"],
+      ["Bootstrap", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/1200px-Bootstrap_logo.svg.png"],
+      ["Tailwind", "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tailwind_CSS_Logo.svg/2048px-Tailwind_CSS_Logo.svg.png"],
+      ["Unity3D", "https://gitlab.com/uploads/-/system/project/avatar/20257117/unity-3d-icon-68.png"],
+      ["Android Studio", "https://2.bp.blogspot.com/-tzm1twY_ENM/XlCRuI0ZkRI/AAAAAAAAOso/BmNOUANXWxwc5vwslNw3WpjrDlgs9PuwQCLcBGAsYHQ/s1600/pasted%2Bimage%2B0.png"],
+      ["HTML - CSS - JS", "https://jml.neocities.org/html5-css3-js.png"],
+    ])
+  },[]);
+
+  useEffect(() => {
+    setProjects([
+      ["LICEX", "Single Page desarrollada usando React y Tailwind.", "/Licex.PNG", "https://zingy-basbousa-a31bde.netlify.app/"],
+      ["Kittens", "Pequeña aplicación desarrollada usando React y Tailwind.", "/Kittens.PNG", "https://stately-cassata-351d79.netlify.app"],
+      ["Ball #", "Videojuego educativo desarrollado en Unity3D", "/ball.png", "https://play.google.com/store/apps/details?id=com.Deizoforia.Ball"]
+    ])
+  },[]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    
+    <main className="flex text-neutral-100 min-h-screen h-full bg-gradient-to-r from-darkmodeblue-darkblue to-darkmodeblue-blue flex-col items-center justify-between font-Barlow ">
+      <div ref={refQuienSoy}></div>
+      <link rel="stylesheet" type="text/css" charSet="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" /> 
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+      <header className="w-full sticky top-0 z-50">
+        <div className="relative">
+          <Navbar items={items}/>
+        </div> 
+      </header>
+      
+      <div className="w-full">
+        <ContainerMaxWidth spacing="pt-4" item={
+          <div className="grid grid-cols-5 gap-8 h-96 items-center place-content-center">
+            <div className="col-span-5 sm:col-span-3">
+              <h1 className="text-4xl  py-1">Hola, mi nombre es </h1>
+              <h1 className="origin-left text-6xl py-6 transition-all duration-300 text-amber-400 opacity-70 hover:scale-110 hover:opacity-100  hover:text-amber-300">Mauricio Zúñiga</h1>
+              <h3 className="text-xl py-3">Desarrollador front end junior</h3>
+            </div>
+            <div className="col-span-2 hidden sm:flex">
+              <img className="opacity-85  transition-all duration-300 hover:scale-125 hover:opacity-100" src="/Software-Developer.svg"></img>
+            </div>
+          </div>
+        }/>
+        <div ref={refConocimientos}></div>
+        <SectionDivider/>
+        
+        <ContainerMaxWidth spacing="pt-12" item={
+          <>
+            <h2 className="text-3xl py-1">Conocimientos:</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 ">
+              {
+                skills.map((skill, key) => (
+                  <React.Fragment key={key}>
+                    <ContainerMiniCard img={skill[1]} desc={skill[0]}/>
+                  </React.Fragment>
+                ))
+              }
+            </div>
+          </>
+        }/>
+        <div ref={refProyectos}></div>
+        <SectionDivider/>
+        
+        <ContainerMaxWidth spacing="pt-12" item={
+          <>
+            <h2 className="text-3xl">Proyectos:</h2>
+            <div className="py-12">
+              <SimpleSlider projects={projects} />
+            </div>
+            
+          </>
+        }/>
+        <Footer/>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
   )
 }
